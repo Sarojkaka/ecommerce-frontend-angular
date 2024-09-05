@@ -1,0 +1,36 @@
+.card-container, h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  text-align: center;
+}
+
+/* Action Buttons */
+.submit-button, .cancel-button {
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 3px;
+}
+
+label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 4px; /* Space between label and input */
+}
+
+input[pInputText],[pInputTextarea] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+  width: 100%; /* Full width */
+}
+
+
+/* Add margin between the input fields and the buttons */
+.p-mt-3 {
+  margin-top: 20px !important; /* You can adjust this value to create more or less space */
+}
+

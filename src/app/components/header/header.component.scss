@@ -1,0 +1,23 @@
+/* app.component.scss */
+
+/* Set background color for the navbar */
+.navbar-custom {
+  background-color: #f8f9fa; /* Match your desired background color */
+}
+
+/* Center the logo vertically and ensure background matches */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  padding: 0; /* Adjust padding if needed */
+}
+
+.logo-image {
+  height: 60px; /* Adjust height to make the logo larger */
+  width: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure the logo scales properly */
+  background-color: transparent; /* Ensure the logo itself has no background color */
+  display: block; /* Remove any inline display issues */
+  opacity: 1;
+  
+}

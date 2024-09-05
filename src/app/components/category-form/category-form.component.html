@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-header">
+      <h2>{{ isEditMode ? 'Edit' : 'Add' }} Category</h2>
+  </div>
+
+  <div class="card-body">
+      <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+        
+          <!-- Category Name Field -->
+          <div class="mb-3">
+            <label for="categoryName" class="form-label">Category Name:</label>
+            <input type="text" class="form-control" id="categoryName" formControlName="categoryName" />
+          </div>
+
+          <!-- Category Description Field -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <input type="text" class="form-control" id="description" formControlName="description" />
+          </div>
+        
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-end mt-3">
+          <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Save' }}</button>
+          <button type="button" class="btn btn-danger ms-2" (click)="onCancel()">Cancel</button>
+        </div>
+      </form>
+ 
+  
+</div>
+
+

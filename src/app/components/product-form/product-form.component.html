@@ -1,0 +1,64 @@
+<div class="card">
+  <div class="card-header">
+    <h2>{{ isEditMode ? 'Edit' : 'Add' }} Product</h2>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+      <!-- Product Name Field -->
+<div class="mb-3">
+  <label for="productName" class="form-label">Product Name:</label>
+  <input type="text" class="form-control" id="productName" formControlName="productName" />
+</div>
+
+<!-- Product Description Field -->
+<div class="mb-3">
+  <label for="description" class="form-label">Description:</label>
+  <input type="text" class="form-control" id="description" formControlName="description" />
+</div>
+
+<!-- Product Price Field -->
+<div class="mb-3">
+  <label for="price" class="form-label">Price:</label>
+  <input type="number" class="form-control" id="price" formControlName="price" />
+</div>
+
+<!-- Product Quantity Field -->
+<div class="mb-3">
+  <label for="quantity" class="form-label">Quantity:</label>
+  <input type="number" class="form-control" id="quantity" formControlName="quantity" />
+</div>
+
+<!-- Product Date Field -->
+<div class="mb-3">
+  <label for="date" class="form-label">Date:</label>
+  <input type="date" class="form-control" id="date" formControlName="date" placeholder="dd/mm/yyyy"/>
+</div>
+
+<!-- Image Upload Field -->
+<div class="mb-3">
+  <label for="image" class="form-label">Image:</label>
+  <input type="file" class="form-control" id="image" (change)="onImageUpload($event)" />
+</div>
+
+<!-- Image Preview -->
+<div class="mb-3" *ngIf="imagePreview">
+  <p>{{ productForm.get('imagePath')?.value }}</p>
+  <img [src]="imagePreview" alt="Image Preview" class="img-thumbnail" style="height: 100px;width: 100px;"/>
+</div>
+
+<!-- Category Selection (Dropdown) -->
+<div class="mb-3">
+  <label for="category" class="form-label">Category:</label>
+  <select id="category" class="form-select" formControlName="category">
+    <option *ngFor="let category of categories" [ngValue]="category.categoryId">
+      {{ category.categoryName }}
+    </option>
+  </select>
+</div>
+
+<!-- Action Buttons -->
+<div class="d-flex justify-content-end mt-3">
+  <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Save' }}</button>
+  <button type="button" class="btn btn-danger ms-2" (click)="onCancel()">Cancel</button>
+</div>
