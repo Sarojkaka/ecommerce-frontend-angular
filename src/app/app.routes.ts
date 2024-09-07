@@ -8,13 +8,14 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 export const routes: Routes = [
 
-    { path: '', redirectTo: '', pathMatch: 'full' }, // Default route
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // Redirect to dashboard by default
     { path: 'category', component: CategoryListComponent },
     { path: 'category/add', component: CategoryFormComponent },
     { path: 'category/edit/:id', component: CategoryFormComponent },
     { path: 'product', component: ProductListComponent },
     { path: 'product/add', component: ProductFormComponent },
     { path: 'product/edit/:id', component: ProductFormComponent },
-    { path: 'dashboard', component: DashboardComponent }
+    { path: 'dashboard', component: DashboardComponent },
+    { path: '**', redirectTo: '/dashboard' } // Catch-all route
    
 ];

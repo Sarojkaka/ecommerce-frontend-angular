@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [CommonModule], // Removed PrimeNG imports
+  imports: [CommonModule],
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
 })
@@ -17,6 +17,7 @@ export class CategoryListComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 0;
+  isLoading = false;
 
   constructor(private categoryService: CategoryService, private router: Router) {}
 
@@ -31,15 +32,18 @@ export class CategoryListComponent implements OnInit {
   }
 
   loadCategories(): void {
+    this.isLoading = true;
     this.categoryService.getAllCategories().subscribe({
       next: (data: Category[]) => {
         this.categories = data;
         this.totalPages = Math.ceil(this.categories.length / this.itemsPerPage);
         this.paginateCategories();
+        this.isLoading = false;
       },
       error: (err: any) => {
         console.error('Error loading categories', err);
         alert('Failed to load categories. Please try again later.');
+        this.isLoading = false;
       }
     });
   }
