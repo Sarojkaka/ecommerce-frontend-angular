@@ -1,0 +1,105 @@
+.container {
+    padding: 20px;
+  }
+  
+  .header {
+    margin-bottom: 20px;
+  }
+  
+  .search-form {
+    margin-bottom: 20px;
+  }
+  
+  .search-form input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .product-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .product-info h2 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .product-info p {
+    margin: 5px 0;
+  }
+  
+  .product-info button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .pagination {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .pagination button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cart {
+    margin-top: 20px;
+  }
+  
+  .cart h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .payment {
+    margin-top: 20px;
+  }
+  
+  .payment form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .payment label {
+    margin: 10px 0 5px;
+  }
+  
+  .payment input {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .payment button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  

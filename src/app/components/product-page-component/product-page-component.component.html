@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="header">
+      <h1>Product Page</h1>
+      <form [formGroup]="searchForm" class="search-form">
+        <input type="text" formControlName="searchTerm" placeholder="Search for products..." />
+      </form>
+    </div>
+  
+    <div class="products-grid">
+      <div class="product-card" *ngFor="let product of paginatedProduct">
+        <img *ngIf="product.imagePath; else defaultImage"
+        [src]="'http://localhost:8080/' + product.imagePath"
+        alt="{{product.productName}}"
+        class="img-thumbnail"/>
+        <ng-template #defaultImage>
+         <img src="assets/images/default.png"
+              alt="Default Image"
+              class="img-thumbnail" />
+       </ng-template>
+        <div class="product-info">
+          <h2>{{product.productName}}</h2>
+          <p>{{product.description}}</p>
+          <p>Price: {{product.price | currency}}</p>
+          <button (click)="addToCart(product)">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="pagination">
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  
+    <div class="cart">
+      <h2>Cart</h2>
+      <div *ngFor="let item of cart">
+        <p>{{item.productName}} - {{item.price | currency}}</p>
+      </div>
+      <p>Total Amount: {{totalAmount | currency}}</p>
+      <button (click)="proceedToPayment()">Proceed to Payment</button>
+    </div>
+  
+    <div class="payment">
+      <h2>Payment</h2>
+      <form>
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" id="cardNumber" name="cardNumber" />
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="text" id="expiryDate" name="expiryDate" />
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" />
+        <button type="submit">Pay</button>
+      </form>
+    </div>
+  </div>
+  
