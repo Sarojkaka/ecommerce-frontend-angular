@@ -1,57 +1,85 @@
-<div class="container">
-    <div class="header">
-      <h1>Product Page</h1>
-      <form [formGroup]="searchForm" class="search-form">
-        <input type="text" formControlName="searchTerm" placeholder="Search for products..." />
-      </form>
-    </div>
-  
-    <div class="products-grid">
-      <div class="product-card" *ngFor="let product of paginatedProduct">
-        <img *ngIf="product.imagePath; else defaultImage"
-        [src]="'http://localhost:8080/' + product.imagePath"
-        alt="{{product.productName}}"
-        class="img-thumbnail"/>
-        <ng-template #defaultImage>
-         <img src="assets/images/default.png"
-              alt="Default Image"
-              class="img-thumbnail" />
-       </ng-template>
-        <div class="product-info">
-          <h2>{{product.productName}}</h2>
-          <p>{{product.description}}</p>
-          <p>Price: {{product.price | currency}}</p>
-          <button (click)="addToCart(product)">Add to Cart</button>
-        </div>
+<div class="header">
+  <h1>Our E-commerce</h1>
+  <div class="search-form">
+    <form [formGroup]="searchForm">
+      <input type="text" formControlName="searchTerm" placeholder="Search for products..." />
+    </form>
+  </div>
+  <div class="header-content">
+    <!-- Dropdown menu -->
+    <div class="dropdown">
+      <button class="dropbtn">Welcome, {{username}}</button>
+      <div class="dropdown-content">
+        <a href="#">Account</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
       </div>
-    </div>
-  
-    <div class="pagination">
-      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
-      <span>Page {{currentPage}} of {{totalPages}}</span>
-      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
-    </div>
-  
-    <div class="cart">
-      <h2>Cart</h2>
-      <div *ngFor="let item of cart">
-        <p>{{item.productName}} - {{item.price | currency}}</p>
-      </div>
-      <p>Total Amount: {{totalAmount | currency}}</p>
-      <button (click)="proceedToPayment()">Proceed to Payment</button>
-    </div>
-  
-    <div class="payment">
-      <h2>Payment</h2>
-      <form>
-        <label for="cardNumber">Card Number:</label>
-        <input type="text" id="cardNumber" name="cardNumber" />
-        <label for="expiryDate">Expiry Date:</label>
-        <input type="text" id="expiryDate" name="expiryDate" />
-        <label for="cvv">CVV:</label>
-        <input type="text" id="cvv" name="cvv" />
-        <button type="submit">Pay</button>
-      </form>
     </div>
   </div>
-  
+</div>
+
+<div class="products-grid">
+  <div class="product-card" *ngFor="let product of paginatedProduct">
+    <img *ngIf="product.imagePath; else defaultImage"
+         [src]="'http://localhost:8080/' + product.imagePath"
+         alt="{{product.productName}}"
+         class="img-thumbnail" />
+    <ng-template #defaultImage>
+      <img src="assets/images/default.png"
+           alt="Default Image"
+           class="img-thumbnail" />
+    </ng-template>
+    <div class="product-info">
+      <h2>{{product.productName}}</h2>
+      <p>{{product.description}}</p>
+      <p>Price: {{product.price | currency}}</p>
+      <button (click)="addToCart(product)">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<div class="pagination">
+  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+  <span>Page {{currentPage}} of {{totalPages}}</span>
+  <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+</div>
+
+<div *ngIf="showCart" class="cart">
+  <h2>Cart</h2>
+  <div *ngFor="let item of cart">
+    <p>{{item.productName}} - {{item.price | currency}}</p>
+  </div>
+  <p>Total Amount: {{totalAmount | currency}}</p>
+  <button (click)="proceedToPayment()">Proceed to Payment</button>
+</div>
+
+<div *ngIf="showPayment" class="payment">
+  <h2>Payment</h2>
+  <form [formGroup]="paymentForm" (ngSubmit)="completePayment()">
+    <label for="cardName">Name on Card:</label>
+    <input type="text" id="cardName" formControlName="cardName" />
+    <div *ngIf="paymentForm.get('cardName')?.invalid && (paymentForm.get('cardName')?.touched || paymentForm.get('cardName')?.dirty)">
+      <small class="error">Name on card is required.</small>
+    </div>
+
+    <label for="cardNumber">Card Number:</label>
+    <input type="text" id="cardNumber" formControlName="cardNumber" />
+    <div *ngIf="paymentForm.get('cardNumber')?.invalid && (paymentForm.get('cardNumber')?.touched || paymentForm.get('cardNumber')?.dirty)">
+      <small class="error">Card number must be 16 digits.</small>
+    </div>
+
+    <label for="expiryDate">Expiry Date:</label>
+    <input type="text" id="expiryDate" formControlName="expiryDate" />
+    <div *ngIf="paymentForm.get('expiryDate')?.invalid && (paymentForm.get('expiryDate')?.touched || paymentForm.get('expiryDate')?.dirty)">
+      <small class="error">Expiry date must be in MM/YY format.</small>
+    </div>
+
+    <label for="cvv">CVV:</label>
+    <input type="text" id="cvv" formControlName="cvv" />
+    <div *ngIf="paymentForm.get('cvv')?.invalid && (paymentForm.get('cvv')?.touched || paymentForm.get('cvv')?.dirty)">
+      <small class="error">CVV must be 3 digits.</small>
+    </div>
+
+    <button type="submit">Pay</button>
+  </form>
+</div>

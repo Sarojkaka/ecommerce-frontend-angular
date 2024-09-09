@@ -60,7 +60,7 @@ export class CategoryFormComponent implements OnInit {
         next: response => {
           console.log('Update response:', response);
           alert('Category updated successfully');
-          this.router.navigate(['/category']);
+          this.router.navigate(['/app/category']);
         },
         error: err => {
           console.error('Update error:', err);
@@ -72,7 +72,7 @@ export class CategoryFormComponent implements OnInit {
         next: response => {
           console.log('Save response:', response);
           alert('Category saved successfully');
-          this.router.navigate(['/category']);
+          this.router.navigate(['/app/category']);
         },
         error: err => {
           console.error('Save error:', err);
@@ -83,6 +83,6 @@ export class CategoryFormComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/category']);
+    this.router.navigate(['/app/category']);
   }
 }

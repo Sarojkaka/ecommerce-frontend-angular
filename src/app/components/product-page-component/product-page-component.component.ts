@@ -3,47 +3,76 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-product-page-component',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './product-page-component.component.html',
-  styleUrl: './product-page-component.component.scss'
+  styleUrls: ['./product-page-component.component.scss']
 })
-export class ProductPageComponentComponent  implements OnInit {
+export class ProductPageComponentComponent implements OnInit {
 
   products: Product[] = [];
   paginatedProduct: Product[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 0;
-  searchForm: FormGroup; // Define FormGroup for search
-
+  searchForm: FormGroup;
   cart: Product[] = [];
   totalAmount: number = 0;
+  categories: any;
+  username: string = '';
+  showCart: boolean = false; // Controls the visibility of the cart
+  showPayment: boolean = false; // Controls the visibility of the payment section
+  paymentForm: FormGroup;
 
   constructor(
     private productService: ProductService,
+    private userService: UserService,
     private router: Router,
-    private fb: FormBuilder // Inject FormBuilder
+    private fb: FormBuilder
   ) {
-    // Initialize form
     this.searchForm = this.fb.group({
-      searchTerm: [''] // Form control for search term
+      searchTerm: ['']
+    });
+
+    this.paymentForm = this.fb.group({
+      cardName: ['', Validators.required],
+      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      expiryDate: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]]
     });
   }
 
   ngOnInit(): void {
+    const userId = localStorage.getItem('userId'); // Get the user ID from localStorage
+    if (userId) {
+      this.loadUserInfo(Number(userId)); // Convert to number and load user info
+    } else {
+      console.error('No user ID found in localStorage');
+    }
     this.loadProducts();
-
-    // Subscribe to search term changes
+  
     this.searchForm.get('searchTerm')?.valueChanges.subscribe((value: string) => {
       this.searchProducts(value);
     });
   }
-
+  
+  loadUserInfo(id: number): void {
+    this.userService.getUserById(id).subscribe({
+      next: (user: User) => {
+        this.username = user.username; // Ensure username is assigned
+      },
+      error: err => {
+        console.error('Error fetching user:', err);
+      }
+    });
+  }
+  
   paginatedProducts(): void {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
@@ -65,8 +94,7 @@ export class ProductPageComponentComponent  implements OnInit {
   }
 
   searchProducts(term: string): void {
-    // Filter products based on the search term
-    const filtered = this.products.filter(product => 
+    const filtered = this.products.filter(product =>
       product.productName.toLowerCase().includes(term.toLowerCase())
     );
     this.paginatedProduct = filtered.slice((this.currentPage - 1) * this.itemsPerPage, this.currentPage * this.itemsPerPage);
@@ -76,11 +104,25 @@ export class ProductPageComponentComponent  implements OnInit {
   addToCart(product: Product): void {
     this.cart.push(product);
     this.totalAmount += product.price;
+    this.showCart = true; // Show the cart when an item is added
   }
 
   proceedToPayment(): void {
-    // Handle payment process
-    alert('Proceeding to payment');
+    this.showPayment = true; // Show the payment section when proceeding to payment
+  }
+
+  completePayment(): void {
+    if (this.paymentForm.valid) {
+      // Clear cart and reset total amount
+      this.cart = [];
+      this.totalAmount = 0;
+      this.showCart = false; // Hide the cart
+      this.showPayment = false; // Hide the payment section
+      alert('Your order is complete!');
+    } else {
+      // Handle invalid form
+      alert('Please fill out the payment form correctly.');
+    }
   }
 
   goToPage(page: number): void {

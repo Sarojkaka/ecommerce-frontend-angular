@@ -68,7 +68,7 @@ export class ProductListComponent implements OnInit {
   }
 
   editProduct(product: Product): void { // Renamed to editBatch
-    this.router.navigate(['/product/edit', product.productId]); // Updated route to /batches/edit
+    this.router.navigate(['/app/product/edit', product.productId]); // Updated route to /batches/edit
   }
 // Pagination methods
 goToPage(page: number): void {

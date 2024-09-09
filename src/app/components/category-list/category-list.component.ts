@@ -69,7 +69,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   editCategory(category: Category): void {
-    this.router.navigate(['/category/edit', category.categoryId]);
+    this.router.navigate(['/app/category/edit', category.categoryId]);
   }
 
   // Pagination methods

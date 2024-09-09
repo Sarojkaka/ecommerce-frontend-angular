@@ -154,7 +154,7 @@ export class ProductFormComponent implements OnInit {
       next: response => {
         console.log('Response:', response);
         alert(this.isEditMode ? 'Product Updated Successfully' : 'Product Saved Successfully');
-        this.router.navigate(['/product']);
+        this.router.navigate(['/app/product']);
       },
       error: err => {
         console.error('Error:', err);
@@ -165,7 +165,7 @@ export class ProductFormComponent implements OnInit {
   
 
   onCancel(): void {
-    this.router.navigate(['/product']);
+    this.router.navigate(['/app/product']);
   }
 }
 
